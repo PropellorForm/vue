@@ -1,12 +1,5 @@
-import type {
-  LOGICAL_OPERATORS,
-  VISIBILITY_RULES_OPERATORS,
-  CUSTOM_VALIDATIONS_OPERATORS,
-} from '../enums/settings';
-import {
-  type Type as InputType,
-  Properties as InputProperties,
-} from '../enums/input';
+import type { LOGICAL_OPERATORS, VISIBILITY_RULES_OPERATORS, CUSTOM_VALIDATIONS_OPERATORS } from '../enums/settings';
+import { type Type as InputType, Properties as InputProperties } from '../enums/input';
 
 export interface LogicalOperator {
   logicalOperator: LOGICAL_OPERATORS;
@@ -15,6 +8,7 @@ export interface LogicalOperator {
 export interface Validation {
   operator: CUSTOM_VALIDATIONS_OPERATORS;
   value: boolean | number | string;
+  maxValue: boolean | number | string;
   message: string;
 }
 

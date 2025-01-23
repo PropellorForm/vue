@@ -6,6 +6,7 @@ import type { DataModel } from '@src/common/types/interfaces/data';
 
 import errorElement from '@lib/elements/error-element.vue';
 import useVisibilityLogic from '@lib/composables/visibility';
+import useValidate from '@lib/composables/validate';
 
 const props = defineProps({
   input: {
@@ -18,9 +19,10 @@ const classNames = inject('class-names') as UserClassNames;
 const model = inject('model') as Ref<DataModel>;
 const updateModel = inject('update-model') as (id: string, value: string) => void;
 
-const errors = ref([]);
+const itemModel = ref(model.value.items[props.input.id]);
 
 const { isVisible } = useVisibilityLogic(props.input);
+const { validate } = useValidate(props.input);
 
 const stepNumber = computed(() => {
   if (props.input.integer) {
@@ -31,7 +33,7 @@ const stepNumber = computed(() => {
 });
 
 const errorClasses = computed(() => {
-  if (unref(errors).length > 0) {
+  if (unref(itemModel.value.$errors).length > 0) {
     return classNames.inputs.error;
   }
 
@@ -40,6 +42,10 @@ const errorClasses = computed(() => {
 
 const onInput = (event: Event) => {
   updateModel(props.input.id, (event.target as HTMLInputElement).value);
+};
+
+const onBlur = () => {
+  validate();
 };
 </script>
 
@@ -50,26 +56,27 @@ const onInput = (event: Event) => {
       <div v-if="input.description" :class="classNames.inputs.description">{{ input.description }}</div>
       <template v-if="input.amountLines && input.amountLines > 0">
         <textarea
-          v-model="model.items[input.id].$value"
+          v-model="itemModel.$value"
           :id="input.id"
           :placeholder="input.placeholder"
           :class="[classNames.inputs.text, errorClasses]"
           :rows="input.amountLines"
-          @input="(value) => onInput(value)"
+          @input="onInput"
         ></textarea>
       </template>
       <template v-else>
         <input
-          v-model="model.items[input.id].$value"
+          v-model="itemModel.$value"
           :id="input.id"
           :type="input.type"
           :placeholder="input.placeholder"
           :class="[classNames.inputs.text, errorClasses]"
           :step="stepNumber"
-          @input="(value) => onInput(value)"
+          @input="onInput"
+          @blur="onBlur"
         />
       </template>
     </div>
-    <errorElement v-if="errors.length > 0" />
+    <errorElement v-if="itemModel.$errors.length > 0" :messages="itemModel.$errors" />
   </div>
 </template>

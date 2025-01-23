@@ -43,6 +43,7 @@ const updateModel = (id: string, value: string | number | string[] | number[]) =
   model.value!.items[id].$value = value;
 };
 
+provide('config', config);
 provide('class-names', config.classNames);
 provide('formData', formData);
 provide('model', model);

@@ -26,5 +26,6 @@ export interface UserClassNames {
 }
 
 export interface UserConfig {
+  showOnlyFirstError: boolean;
   classNames: UserClassNames;
 }

@@ -1,20 +1,29 @@
 <script lang="ts" setup>
-import { inject } from 'vue';
-import type { UserClassNames } from '@src/common/types/interfaces/user-config';
+import { computed, inject } from 'vue';
+import type { UserConfig, UserClassNames } from '@src/common/types/interfaces/user-config';
 
-defineProps({
+const props = defineProps({
   messages: {
     type: Array,
     default: () => [],
   },
 });
 
+const config = inject('config') as UserConfig;
 const classNames = inject('class-names') as UserClassNames;
+
+const visibleMessages = computed(() => {
+  if (config.showOnlyFirstError) {
+    return props.messages.slice(0, 1);
+  }
+
+  return props.messages;
+});
 </script>
 
 <template>
-  <ul v-if="messages.length > 0" :class="classNames.errors.group">
-    <template v-for="message in messages" :key="message">
+  <ul :class="classNames.errors.group">
+    <template v-for="message in visibleMessages" :key="message">
       <li :class="classNames.errors.error">{{ message }}</li>
     </template>
   </ul>

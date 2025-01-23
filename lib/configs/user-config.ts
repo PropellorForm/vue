@@ -3,6 +3,7 @@ import type { UserConfig } from '@src/common/types/interfaces/user-config';
 const classNamePrefix = 'pf-';
 
 export const defaultConfig: UserConfig = {
+  showOnlyFirstError: true,
   classNames: {
     prefix: classNamePrefix,
     form: {
