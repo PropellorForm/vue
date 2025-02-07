@@ -73,17 +73,31 @@ export interface Group {
   inputs: Input[];
 }
 
+export interface Date {
+  date: string;
+  user: string;
+}
+
+export interface Email {
+  address: string;
+  subject: string;
+  template: string;
+  mailToUser: boolean;
+}
+
+export interface Buttons {
+  submitButtonLabel: string;
+  resetButtonLabel: string;
+  backButtonLabel: string;
+}
+
 export interface Form {
   id: string;
   title: string;
   spaceId: string;
-  updated: {
-    date: string;
-    user: string;
-  };
-  created: {
-    date: string;
-    user: string;
-  };
+  updated: Date;
+  created: Date;
+  email?: Email;
+  buttons: Buttons;
   elements: Group[];
 }

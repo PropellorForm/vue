@@ -13,7 +13,7 @@ const config = inject('config') as UserConfig;
 const classNames = inject('class-names') as UserClassNames;
 
 const visibleMessages = computed(() => {
-  if (config.showOnlyFirstError) {
+  if (config.actions.showOnlyFirstErrorPerInput) {
     return props.messages.slice(0, 1);
   }
 

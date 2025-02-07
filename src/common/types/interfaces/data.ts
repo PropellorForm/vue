@@ -17,8 +17,8 @@ export interface ItemModel {
 }
 
 export interface DataModel {
-  $invalid: Ref<boolean>;
-  $touched: Ref<boolean>;
+  $invalid: boolean;
+  $touched: boolean;
   items: {
     [key: string]: ItemModel;
   };

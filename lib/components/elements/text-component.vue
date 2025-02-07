@@ -1,12 +1,12 @@
 <script lang="ts" setup>
 import { computed, inject, ref, unref, type PropType, type Ref } from 'vue';
 import type { Input } from '@src/common/types/interfaces/forms';
-import type { UserClassNames } from '@src/common/types/interfaces/user-config';
+import type { UserClassNames, UserConfig } from '@src/common/types/interfaces/user-config';
 import type { DataModel } from '@src/common/types/interfaces/data';
 
 import errorElement from '@lib/elements/error-element.vue';
 import useVisibilityLogic from '@lib/composables/visibility';
-import useValidate from '@lib/composables/validate';
+import { Validate } from '@lib/composables/validate';
 
 const props = defineProps({
   input: {
@@ -16,13 +16,14 @@ const props = defineProps({
 });
 
 const classNames = inject('class-names') as UserClassNames;
+const config = inject('config') as UserConfig;
 const model = inject('model') as Ref<DataModel>;
 const updateModel = inject('update-model') as (id: string, value: string) => void;
 
 const itemModel = ref(model.value.items[props.input.id]);
 
 const { isVisible } = useVisibilityLogic(props.input);
-const { validate } = useValidate(props.input);
+const { validate } = Validate(model, props.input.id);
 
 const stepNumber = computed(() => {
   if (props.input.integer) {
@@ -45,7 +46,9 @@ const onInput = (event: Event) => {
 };
 
 const onBlur = () => {
-  validate();
+  if (config.actions.validateOnBlur) {
+    validate();
+  }
 };
 </script>
 

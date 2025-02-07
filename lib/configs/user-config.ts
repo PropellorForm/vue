@@ -3,12 +3,16 @@ import type { UserConfig } from '@src/common/types/interfaces/user-config';
 const classNamePrefix = 'pf-';
 
 export const defaultConfig: UserConfig = {
-  showOnlyFirstError: true,
+  actions: {
+    showOnlyFirstErrorPerInput: true,
+    showListWithAllFormErrors: true,
+    scrollToFirstError: true,
+    validateOnBlur: true,
+  },
   classNames: {
     prefix: classNamePrefix,
     form: {
       default: `${classNamePrefix}form`,
-      submit: `${classNamePrefix}submit`,
     },
     fieldset: {
       default: `${classNamePrefix}fieldset`,
@@ -24,6 +28,12 @@ export const defaultConfig: UserConfig = {
       description: `${classNamePrefix}description`,
       text: `${classNamePrefix}input`,
       error: `${classNamePrefix}has-error`,
+    },
+    buttons: {
+      container: `${classNamePrefix}buttons`,
+      submit: `${classNamePrefix}button-submit`,
+      reset: `${classNamePrefix}button-reset`,
+      back: `${classNamePrefix}button-back`,
     },
     errors: {
       group: `${classNamePrefix}errors`,

@@ -1,21 +1,18 @@
-import { inject, ref, unref, type Ref } from 'vue';
+import { ref, unref, type Ref } from 'vue';
 import type { DataModel, Validator } from '@src/common/types/interfaces/data';
-import type { Input, LogicalOperator } from '@src/common/types/interfaces/forms';
+import type { LogicalOperator } from '@src/common/types/interfaces/forms';
 import { LOGICAL_OPERATORS } from '@src/common/types/enums/settings';
 
-export default function Validate(element: Input) {
-  const model = inject('model') as Ref<DataModel>;
-  const item = ref(model.value.items[element.id]);
+export const Validate = (model: Ref<DataModel>, elementId: string) => {
+  const item = ref(model.value.items[elementId]);
 
   const setTouched = () => {
     item.value.$touched = true;
-    model.value.$touched = ref(Object.values(model.value.items).some((item) => item.$touched));
+    model.value.$touched = Object.values(model.value.items).some((item) => item.$touched);
   };
 
   const setErrors = () => {
     const invalidValidations = item.value.validations.filter((validation) => (validation as Validator).$invalid);
-
-    console.log(invalidValidations);
 
     item.value.$errors = invalidValidations.map((validation) => {
       return (validation as Validator).$message;
@@ -48,7 +45,7 @@ export default function Validate(element: Input) {
 
     item.value.$invalid = !isValid;
 
-    model.value.$invalid = ref(Object.values(model.value.items).some((item) => item.$invalid));
+    model.value.$invalid = Object.values(model.value.items).some((item) => item.$invalid.value);
 
     if (unref(item).$invalid) {
       setErrors();
@@ -60,4 +57,4 @@ export default function Validate(element: Input) {
   return {
     validate,
   };
-}
+};
