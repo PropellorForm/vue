@@ -45,6 +45,7 @@ const updateModel = (id: string, value: string | number | string[] | number[]) =
 
 provide('config', config);
 provide('class-names', config.classNames);
+provide('translations', config.translations);
 provide('formData', formData);
 provide('model', model);
 provide('update-model', updateModel);

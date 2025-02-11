@@ -31,7 +31,7 @@ const getValidations = (input: Input): Ref<Validator[] | LogicalOperator[]> => {
         $name: localRule.operator,
         $message: localRule.message,
         $invalid: false,
-        $func: Validations[localRule.operator](localRule.value, localRule.maxValue),
+        $func: Validations[localRule.operator](input.required, localRule.value, localRule.maxValue),
       });
     } else {
       (validations.value as LogicalOperator[]).push(rule as LogicalOperator);
@@ -51,12 +51,17 @@ export const createModel = (formData: Form) => {
   formData.elements.forEach((element) => {
     element.inputs.forEach((input) => {
       const validations = getValidations(input);
+      let defaultValue = input.defaultValue as string;
+
+      if (defaultValue === undefined) {
+        defaultValue = '';
+      }
 
       const item: ItemModel = {
         $invalid: ref(false),
         $touched: ref(false),
         $errors: [],
-        $value: (input.defaultValue as string) || '',
+        $value: defaultValue,
         validations: validations,
       };
 

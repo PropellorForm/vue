@@ -20,7 +20,7 @@ const { isVisible } = useVisibilityLogic(props.group);
 
 <template>
   <fieldset v-if="isVisible" :class="classNames.fieldset.default">
-    <legend :class="classNames.fieldset.legend">{{ group.title }}</legend>
+    <legend v-if="group.title" :class="classNames.fieldset.legend">{{ group.title }}</legend>
     <div :class="classNames.group.default">
       <template v-for="input in group.inputs" :key="input.id">
         <FormElement :input="input" />

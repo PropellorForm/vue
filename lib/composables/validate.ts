@@ -31,6 +31,9 @@ export const Validate = (model: Ref<DataModel>, elementId: string) => {
     item.value.validations.forEach((validation) => {
       if (validation.hasOwnProperty('$func')) {
         const localValidation = validation as Validator;
+
+        console.log(item.value);
+
         const isInvalid = !localValidation.$func(item.value.$value);
 
         localValidation.$invalid = isInvalid;

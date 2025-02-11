@@ -5,6 +5,7 @@ import { Type as InputType } from '@src/common/types/enums/input';
 
 import textComponent from './elements/text-component.vue';
 import listComponent from './elements/list-component.vue';
+import rangeComponent from './elements/range-component.vue';
 
 const props = defineProps({
   input: {
@@ -27,6 +28,10 @@ const inputComponent = computed(() => {
 
   if (props.input.type === InputType.MULTIPLE_CHOICE) {
     return listComponent;
+  }
+
+  if (props.input.type === InputType.SLIDER) {
+    return rangeComponent;
   }
 
   return null;
